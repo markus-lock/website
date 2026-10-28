@@ -1,0 +1,436 @@
+<!doctype html>
+<html lang="da">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4f5f3">
+  <meta name="description" content="Dansk muskelatlas med latinske navne, udspring, hæfte, funktion og anatomiske illustrationer.">
+  <title>Muskelatlas — menneskets skeletmuskler</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #202823;
+      --muted: #69746d;
+      --paper: #f4f5f3;
+      --card: #ffffff;
+      --line: #e0e5e1;
+      --green: #315c48;
+      --green-dark: #203d30;
+      --soft-green: #e8efe9;
+      --gold: #d7bb76;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background: var(--paper);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; min-width: 320px; }
+    button, input { font: inherit; }
+    button { cursor: pointer; }
+    a { color: inherit; }
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1180px;
+      margin: auto;
+      padding: 19px 28px;
+    }
+    .brand { display: flex; align-items: center; gap: 11px; color: var(--green-dark); font-weight: 800; text-decoration: none; letter-spacing: -.03em; }
+    .brand-icon {
+      display: grid; width: 36px; height: 36px; place-items: center; border-radius: 11px;
+      background: var(--green); color: white; font-family: Georgia, serif; font-size: 20px;
+    }
+    .home-link { color: var(--muted); font-size: 13px; text-decoration: none; }
+    .home-link:hover { color: var(--green); text-decoration: underline; }
+    .hero {
+      max-width: 1124px; margin: 10px auto 0; padding: clamp(34px, 6vw, 70px);
+      border: 1px solid #e5e8e4; border-radius: 26px;
+      background: radial-gradient(circle at 90% 18%, #e4ebe5 0 13%, transparent 13.2%),
+                  radial-gradient(circle at 91% 18%, transparent 0 17%, #e8ece8 17.2% 17.5%, transparent 17.7%),
+                  linear-gradient(120deg, #fff 0%, #f1f4f0 100%);
+    }
+    .hero-inner { max-width: 730px; }
+    .kicker { margin: 0 0 13px; color: var(--green); font-size: 11px; font-weight: 800; letter-spacing: .15em; text-transform: uppercase; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { margin-bottom: 18px; color: var(--green-dark); font-family: Georgia, "Times New Roman", serif; font-size: clamp(40px, 7vw, 70px); font-weight: 500; letter-spacing: -.055em; line-height: .98; }
+    .hero p:not(.kicker) { max-width: 670px; margin-bottom: 0; color: #58655d; font-size: 16px; line-height: 1.75; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 11px; margin-top: 25px; }
+    .button {
+      display: inline-flex; min-height: 44px; align-items: center; justify-content: center; gap: 8px;
+      padding: 0 17px; border: 1px solid var(--green); border-radius: 999px;
+      background: var(--green); color: white; font-size: 13px; font-weight: 750; text-decoration: none;
+      transition: transform .15s ease, background .15s ease;
+    }
+    .button:hover { transform: translateY(-1px); background: var(--green-dark); }
+    .button.outline { background: transparent; color: var(--green); border-color: #b9c7bc; }
+    .button.outline:hover { background: #fff; }
+    .main { max-width: 1124px; margin: 0 auto; padding: 64px 28px 72px; }
+    .intro-row { display: flex; align-items: end; justify-content: space-between; gap: 20px; margin-bottom: 20px; }
+    h2 { margin-bottom: 8px; color: var(--green-dark); font-family: Georgia, "Times New Roman", serif; font-size: clamp(29px, 4vw, 40px); font-weight: 500; letter-spacing: -.04em; }
+    .section-copy { max-width: 700px; margin-bottom: 0; color: var(--muted); font-size: 14px; line-height: 1.65; }
+    .image-credit { color: var(--muted); font-size: 11px; line-height: 1.5; }
+    .image-credit a { color: #4e725c; }
+    .gallery {
+      display: grid; grid-template-columns: repeat(12, 1fr); gap: 14px; margin: 25px 0 62px;
+    }
+    .plate {
+      overflow: hidden; display: flex; flex-direction: column; grid-column: span 3;
+      border: 1px solid var(--line); border-radius: 17px; background: #fff;
+    }
+    .plate.wide { grid-column: span 6; }
+    .plate a.image-link { display: grid; height: 250px; place-items: center; padding: 10px; background: #f7f8f6; }
+    .plate.wide a.image-link { height: 300px; }
+    .plate img { max-width: 100%; max-height: 100%; object-fit: contain; }
+    .plate .plate-caption { padding: 13px 15px 0; color: var(--ink); font-size: 13px; font-weight: 750; }
+    .plate .image-credit { padding: 5px 15px 14px; }
+    .search-row { display: flex; gap: 12px; margin: 22px 0 14px; }
+    .search-wrap { position: relative; flex: 1; }
+    .search-icon { position: absolute; top: 50%; left: 14px; color: #77827b; transform: translateY(-50%); pointer-events: none; }
+    .search {
+      width: 100%; min-height: 48px; padding: 0 16px 0 42px; border: 1px solid var(--line);
+      border-radius: 13px; outline: none; background: #fff; color: var(--ink);
+    }
+    .search:focus { border-color: #7f9d89; box-shadow: 0 0 0 3px rgb(91 132 105 / 14%); }
+    .result-count { align-self: center; flex-shrink: 0; color: var(--muted); font-size: 12px; }
+    .filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 23px; }
+    .filter {
+      min-height: 35px; padding: 0 13px; border: 1px solid var(--line); border-radius: 999px;
+      background: transparent; color: #5d6961; font-size: 12px; font-weight: 700;
+    }
+    .filter:hover { border-color: #91a997; }
+    .filter[aria-pressed="true"] { border-color: var(--green); background: var(--green); color: #fff; }
+    .muscle-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 13px; }
+    .muscle-card { overflow: hidden; border: 1px solid var(--line); border-radius: 16px; background: var(--card); }
+    .muscle-card[hidden] { display: none; }
+    .muscle-summary {
+      display: flex; align-items: flex-start; justify-content: space-between; gap: 14px;
+      padding: 17px 18px; cursor: pointer; list-style: none;
+    }
+    .muscle-summary::-webkit-details-marker { display: none; }
+    .muscle-summary::after { content: "+"; color: var(--green); font-size: 21px; line-height: 1; }
+    details[open] .muscle-summary::after { content: "−"; }
+    .muscle-title { min-width: 0; }
+    .latin { display: block; margin-bottom: 4px; color: var(--green-dark); font-family: Georgia, "Times New Roman", serif; font-size: 20px; font-style: italic; }
+    .danish-name { color: #67736b; font-size: 12px; }
+    .region-tag { flex-shrink: 0; padding: 5px 8px; border-radius: 999px; background: var(--soft-green); color: var(--green); font-size: 9px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; }
+    .muscle-detail { padding: 0 18px 18px; border-top: 1px solid #eef0ed; }
+    .fields { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 18px; padding-top: 14px; }
+    .field dt { margin-bottom: 4px; color: #778179; font-size: 10px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+    .field dd { margin: 0; color: #354139; font-size: 12px; line-height: 1.55; }
+    .field.function { grid-column: 1 / -1; }
+    .source-link { display: inline-block; margin-top: 12px; color: #577960; font-size: 11px; font-weight: 700; text-underline-offset: 3px; }
+    .empty { grid-column: 1 / -1; padding: 35px; border: 1px dashed #c9d2cb; border-radius: 16px; color: var(--muted); text-align: center; }
+    .note {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-top: 60px; padding: 25px;
+      border: 1px solid var(--line); border-radius: 18px; background: #fff;
+    }
+    .note h3 { margin-bottom: 8px; color: var(--green-dark); font-size: 15px; }
+    .note p { margin-bottom: 0; color: #626e66; font-size: 12px; line-height: 1.65; }
+    .sources { margin-top: 58px; padding-top: 24px; border-top: 1px solid var(--line); }
+    .source-links { display: flex; flex-wrap: wrap; gap: 10px 20px; margin-top: 16px; }
+    .source-links a { color: #4e725c; font-size: 12px; text-underline-offset: 3px; }
+    footer {
+      display: flex; justify-content: space-between; gap: 15px; max-width: 1124px; margin: auto; padding: 20px 28px 32px;
+      border-top: 1px solid var(--line); color: var(--muted); font-size: 11px;
+    }
+    footer a { text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+    @media (max-width: 800px) {
+      .hero { margin: 8px 16px 0; }
+      .plate, .plate.wide { grid-column: span 6; }
+      .muscle-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 540px) {
+      .topbar { padding: 15px 19px; }
+      .home-link { font-size: 11px; }
+      .hero { padding: 38px 23px; }
+      .hero p:not(.kicker) { font-size: 14px; }
+      .main { padding: 49px 18px 55px; }
+      .intro-row { align-items: flex-start; flex-direction: column; }
+      .gallery { gap: 9px; margin: 20px 0 48px; }
+      .plate, .plate.wide { grid-column: span 12; }
+      .plate a.image-link, .plate.wide a.image-link { height: 230px; }
+      .search-row { flex-direction: column; gap: 8px; }
+      .result-count { align-self: flex-start; }
+      .fields { grid-template-columns: 1fr; gap: 10px; }
+      .field.function { grid-column: auto; }
+      .note { grid-template-columns: 1fr; padding: 20px; }
+      footer { flex-direction: column; padding-right: 18px; padding-left: 18px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#top"><span class="brand-icon" aria-hidden="true">M</span> Muskelatlas</a>
+    <a class="home-link" href="../">← Til forsiden</a>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="hero-inner">
+        <p class="kicker">Anatomi · skeletmuskler</p>
+        <h1>Musklerne, lag for lag.</h1>
+        <p>Et dansk opslagsværk med latinske muskelnavne, udspring, hæfte og funktion. Søg på dansk eller latin, vælg en kropsregion, og åbn en muskel for at se detaljerne.</p>
+        <div class="hero-actions">
+          <a class="button" href="#atlas">Gå til muskelatlas ↓</a>
+          <a class="button outline" href="#illustrationer">Se illustrationerne</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="main" id="illustrationer" aria-labelledby="illustration-title">
+      <div class="intro-row">
+        <div>
+          <p class="kicker">Anatomiske plader</p>
+          <h2 id="illustration-title">Se musklerne i kroppen</h2>
+          <p class="section-copy">Oversigtsbilleder af overfladiske og dybere muskellag. Tryk på et billede for at åbne det i fuld størrelse. De engelske labels på oversigtspladen suppleres af det danske og latinske atlas nedenfor.</p>
+        </div>
+      </div>
+      <div class="gallery">
+        <article class="plate wide">
+          <a class="image-link" href="https://upload.wikimedia.org/wikipedia/commons/9/91/1105_Anterior_and_Posterior_Views_of_Muscles.jpg" target="_blank" rel="noopener noreferrer">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/1105_Anterior_and_Posterior_Views_of_Muscles.jpg" alt="Detaljeret mærket oversigtsplade med muskler set forfra og bagfra" loading="lazy">
+          </a>
+          <p class="plate-caption">Hele kroppen · forfra og bagfra</p>
+          <p class="image-credit">OpenStax, <em>Anatomy &amp; Physiology</em>, CC BY 4.0. <a href="https://commons.wikimedia.org/wiki/File:1105_Anterior_and_Posterior_Views_of_Muscles.jpg" target="_blank" rel="noopener noreferrer">Billedkilde og licens</a>.</p>
+        </article>
+        <article class="plate">
+          <a class="image-link" href="https://openstax.org/apps/image-cdn/v1/f%3Dwebp/apps/archive/20260604.144757/resources/e5ba9b5bb7343a347f55336ebd7a61f3b35b0cdc" target="_blank" rel="noopener noreferrer">
+            <img src="https://openstax.org/apps/image-cdn/v1/f%3Dwebp/apps/archive/20260604.144757/resources/e5ba9b5bb7343a347f55336ebd7a61f3b35b0cdc" alt="Detaljerede muskellag omkring skulder og bryst" loading="lazy">
+          </a>
+          <p class="plate-caption">Skulderens dybe muskler</p>
+          <p class="image-credit">OpenStax Fig. 11.23 · CC BY 4.0 · <a href="https://openstax.org/books/anatomy-and-physiology/pages/11-5-muscles-of-the-pectoral-girdle-and-upper-limbs" target="_blank" rel="noopener noreferrer">Kapitel og licens</a>.</p>
+        </article>
+        <article class="plate">
+          <a class="image-link" href="https://openstax.org/apps/image-cdn/v1/f%3Dwebp/apps/archive/20260604.144757/resources/49b609261eb97e71f9ddf62a249b747ebd49279e" target="_blank" rel="noopener noreferrer">
+            <img src="https://openstax.org/apps/image-cdn/v1/f%3Dwebp/apps/archive/20260604.144757/resources/49b609261eb97e71f9ddf62a249b747ebd49279e" alt="Illustration af underarmens muskler, der bevæger håndled, hånd og fingre" loading="lazy">
+          </a>
+          <p class="plate-caption">Underarm, hånd og fingre</p>
+          <p class="image-credit">OpenStax Fig. 11.27 · CC BY 4.0 · <a href="https://openstax.org/books/anatomy-and-physiology/pages/11-5-muscles-of-the-pectoral-girdle-and-upper-limbs" target="_blank" rel="noopener noreferrer">Kapitel og licens</a>.</p>
+        </article>
+        <article class="plate">
+          <a class="image-link" href="https://openstax.org/apps/image-cdn/v1/f%3Dwebp/apps/archive/20260604.144757/resources/c6b4c0fc14243be85bfe162be2b6cf0a1a39eede" target="_blank" rel="noopener noreferrer">
+            <img src="https://openstax.org/apps/image-cdn/v1/f%3Dwebp/apps/archive/20260604.144757/resources/c6b4c0fc14243be85bfe162be2b6cf0a1a39eede" alt="Lagene af muskler i bugvæggen set fra siden og forfra" loading="lazy">
+          </a>
+          <p class="plate-caption">Bugvæg og dybe rygmuskler</p>
+          <p class="image-credit">OpenStax Fig. 11.16 · CC BY 4.0 · <a href="https://openstax.org/books/anatomy-and-physiology-2e/pages/11-4-axial-muscles-of-the-abdominal-wall-and-thorax" target="_blank" rel="noopener noreferrer">Kapitel og licens</a>.</p>
+        </article>
+        <article class="plate">
+          <a class="image-link" href="https://openstax.org/apps/image-cdn/v1/f%3Dwebp/apps/archive/20260604.144757/resources/48a26b0c6351a2052a16c4fcd338bc092505e492" target="_blank" rel="noopener noreferrer">
+            <img src="https://openstax.org/apps/image-cdn/v1/f%3Dwebp/apps/archive/20260604.144757/resources/48a26b0c6351a2052a16c4fcd338bc092505e492" alt="Overfladiske og dybe muskler omkring hofte og lår" loading="lazy">
+          </a>
+          <p class="plate-caption">Hofte og lår · overfladisk og dybt</p>
+          <p class="image-credit">OpenStax Fig. 11.29 · CC BY 4.0 · <a href="https://openstax.org/books/anatomy-and-physiology/pages/11-6-appendicular-muscles-of-the-pelvic-girdle-and-lower-limbs" target="_blank" rel="noopener noreferrer">Kapitel og licens</a>.</p>
+        </article>
+        <article class="plate">
+          <a class="image-link" href="https://openstax.org/apps/image-cdn/v1/f%3Dwebp/apps/archive/20260604.144757/resources/adeb0a7389faaf57fe6dd39c017a6d25a03e6816" target="_blank" rel="noopener noreferrer">
+            <img src="https://openstax.org/apps/image-cdn/v1/f%3Dwebp/apps/archive/20260604.144757/resources/adeb0a7389faaf57fe6dd39c017a6d25a03e6816" alt="Illustration af underbenets overfladiske og dybe muskler" loading="lazy">
+          </a>
+          <p class="plate-caption">Underbenets dybe muskler</p>
+          <p class="image-credit">OpenStax Fig. 11.32 · CC BY 4.0 · <a href="https://openstax.org/books/anatomy-and-physiology/pages/11-6-appendicular-muscles-of-the-pelvic-girdle-and-lower-limbs" target="_blank" rel="noopener noreferrer">Kapitel og licens</a>.</p>
+        </article>
+      </div>
+
+      <div class="intro-row" id="atlas">
+        <div>
+          <p class="kicker">Opslagsværk</p>
+          <h2>Find en muskel</h2>
+          <p class="section-copy">Søg efter latinsk navn eller dansk betegnelse. Udspring og hæfte er standardbeskrivelser; anatomi kan variere lidt mellem lærebøger og fra person til person.</p>
+        </div>
+      </div>
+      <div class="search-row">
+        <label class="search-wrap">
+          <span class="search-icon" aria-hidden="true">⌕</span>
+          <input id="search" class="search" type="search" placeholder="Søg fx biceps, musculus deltoideus, skulder…" aria-label="Søg efter muskel på dansk eller latin" autocomplete="off">
+        </label>
+        <span class="result-count" id="count" aria-live="polite"></span>
+      </div>
+      <nav class="filters" id="filters" aria-label="Filtrer muskler efter kropsregion"></nav>
+      <div class="muscle-grid" id="muscles" aria-live="polite"></div>
+
+      <aside class="note">
+        <div>
+          <h3>Sådan læses udspring og hæfte</h3>
+          <p>Udspring er den tilhæftning, der oftest beskrives som mest stabil; hæfte er typisk den mere bevægelige ende. Hvilken ende der bevæger sig, kan ændres med kropsstilling og opgave.</p>
+        </div>
+        <div>
+          <h3>Hvad dækker atlaset?</h3>
+          <p>Atlaset fokuserer på navngivne skeletmuskler og de vigtigste muskelgrupper i hoved, krop og lemmer. Det er et studieopslag, ikke en klinisk undersøgelse. Den officielle internationale latinske nomenklatur vedligeholdes af FIPAT.</p>
+        </div>
+      </aside>
+
+      <section class="sources" aria-labelledby="sources-title">
+        <p class="kicker">Kilder og videre læsning</p>
+        <h2 id="sources-title">Anatomien bag opslagene</h2>
+        <div class="source-links">
+          <a href="https://ifaa.net/committees/anatomical-terminology-fipat/fipat-ifaa-terminologies/" target="_blank" rel="noopener noreferrer">FIPAT · international anatomisk terminologi</a>
+          <a href="https://openstax.org/books/anatomy-and-physiology-2e/pages/11-3-axial-muscles-of-the-head-neck-and-back" target="_blank" rel="noopener noreferrer">OpenStax · hoved, hals og ryg</a>
+          <a href="https://openstax.org/books/anatomy-and-physiology-2e/pages/11-4-axial-muscles-of-the-abdominal-wall-and-thorax" target="_blank" rel="noopener noreferrer">OpenStax · brystkasse og bugvæg</a>
+          <a href="https://openstax.org/books/anatomy-and-physiology/pages/11-5-muscles-of-the-pectoral-girdle-and-upper-limbs" target="_blank" rel="noopener noreferrer">OpenStax · skulder, arm og hånd</a>
+          <a href="https://openstax.org/books/anatomy-and-physiology/pages/11-6-appendicular-muscles-of-the-pelvic-girdle-and-lower-limbs" target="_blank" rel="noopener noreferrer">OpenStax · hofte, ben og fod</a>
+          <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">OpenStax-billeder · CC BY 4.0</a>
+        </div>
+      </section>
+    </section>
+  </main>
+  <footer><span>Dansk studieatlas · Latin · udspring · hæfte · funktion</span><a href="#top">Til toppen ↑</a></footer>
+
+  <script>
+    const refs = {
+      head: { name: "OpenStax · hoved, hals og ryg", url: "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-3-axial-muscles-of-the-head-neck-and-back" },
+      trunk: { name: "OpenStax · brystkasse og bugvæg", url: "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-4-axial-muscles-of-the-abdominal-wall-and-thorax" },
+      upper: { name: "OpenStax · skulder, arm og hånd", url: "https://openstax.org/books/anatomy-and-physiology/pages/11-5-muscles-of-the-pectoral-girdle-and-upper-limbs" },
+      lower: { name: "OpenStax · hofte, ben og fod", url: "https://openstax.org/books/anatomy-and-physiology/pages/11-6-appendicular-muscles-of-the-pelvic-girdle-and-lower-limbs" }
+    };
+
+    // Latin names follow FIPAT/Terminologia Anatomica where applicable.
+    // Origin, insertion and function are concise study summaries.
+    const data = [
+      ["Musculus masseter", "Tyggemuskel", "Hoved og hals", "Arcus zygomaticus (kindbensbuen).", "Ramus og angulus mandibulae (underkæbens gren og vinkel).", "Løfter underkæben og lukker munden ved tygning.", "head"],
+      ["Musculus temporalis", "Tindingemuskel", "Hoved og hals", "Fossa temporalis og fascia temporalis.", "Processus coronoideus og forreste ramus mandibulae.", "Løfter og trækker underkæben bagud.", "head"],
+      ["Musculus orbicularis oculi", "Ringmuskel omkring øjet", "Hoved og hals", "Mediale øjenkrog, ligamentum palpebrale mediale og knogler omkring øjenhulen.", "Hud og væv omkring øjenlågene.", "Lukker øjet; bruges ved blink og sammenknebne øjne.", "head"],
+      ["Musculus orbicularis oris", "Ringmuskel omkring munden", "Hoved og hals", "Over- og underkæbens væv samt muskelfibre omkring munden.", "Hud og slimhinde i læberne.", "Lukker og spidser læberne.", "head"],
+      ["Musculus buccinator", "Kindmuskel", "Hoved og hals", "Alveolefremspring i over- og underkæbe samt raphe pterygomandibularis.", "Mundvigens muskulatur og orbicularis oris.", "Presser kinden ind mod tænderne og holder maden mellem tyggefladerne.", "head"],
+      ["Musculus sternocleidomastoideus", "Halsens skrå muskel", "Hoved og hals", "Manubrium sterni og mediale tredjedel af clavicula.", "Processus mastoideus og linea nuchae superior.", "Drejer hovedet til modsatte side; bøjer halsen ved sammentrækning på begge sider.", "head"],
+      ["Musculus splenius capitis", "Hovedets bæltemuskel", "Hoved og hals", "Ligamentum nuchae og torntappe fra C7 til øvre brysthvirvler.", "Processus mastoideus og linea nuchae superior.", "Strækker hovedet; drejer og sidebøjer det mod samme side.", "head"],
+      ["Musculus levator scapulae", "Skulderbladsløfter", "Hoved og hals", "Tværtappe på C1–C4.", "Øvre mediale kant af scapula.", "Løfter skulderbladet og hjælper med nedadrotation.", "head"],
+      ["Musculus scalenus anterior", "Forreste trappemuskel", "Hoved og hals", "Tværtappe på C3–C6.", "Første ribben.", "Sidebøjer halsen og løfter første ribben under kraftig indånding.", "head"],
+      ["Musculus trapezius", "Kappemusklen", "Ryg", "Nakkeben, ligamentum nuchae og torntappe fra C7 til T12.", "Clavicula, acromion og spina scapulae.", "Løfter, sænker og trækker skulderbladet ind; hjælper med at strække nakken.", "head"],
+      ["Musculus rhomboideus major", "Store rombemuskel", "Ryg", "Torntappe fra T2–T5.", "Mediale kant af scapula neden for spina scapulae.", "Trækker skulderbladet ind mod rygsøjlen og stabiliserer det.", "head"],
+      ["Musculus rhomboideus minor", "Lille rombemuskel", "Ryg", "Ligamentum nuchae og torntappe C7–T1.", "Mediale kant af scapula ved spina scapulae.", "Trækker og stabiliserer skulderbladet indad.", "head"],
+      ["Musculus erector spinae", "Rygstrækkerne", "Ryg", "Korsben, hoftekam og lændehvirvler via fælles seneflade.", "Ribben, hvirvler og kraniets nakkeben.", "Strækker rygsøjlen og hjælper med at holde kroppen oprejst.", "head"],
+
+      ["Musculus pectoralis major", "Store brystmuskel", "Bryst og mave", "Mediale clavicula, sternum og ribbensbruske typisk fra ribben 1–6.", "Crista tuberculi majoris på humerus.", "Fører armen ind mod kroppen og roterer den indad; hjælper med fremføring.", "upper"],
+      ["Musculus pectoralis minor", "Lille brystmuskel", "Bryst og mave", "Forsiderne af ribben 3–5.", "Processus coracoideus på scapula.", "Stabiliserer og trækker skulderbladet frem og ned; kan hjælpe indånding.", "upper"],
+      ["Musculus serratus anterior", "Savtakket forreste muskel", "Bryst og mave", "Ydersiden af ribben 1–8 eller 1–9.", "Forsiden af scapulas mediale kant.", "Fører skulderbladet frem og roterer det opad; holder det ind mod brystkassen.", "upper"],
+      ["Musculus latissimus dorsi", "Den brede rygmuskel", "Bryst og mave", "Nedre brysthvirvler, thoracolumbal fascie, hoftekam og nederste ribben.", "Sulcus intertubercularis på humerus.", "Strækker, fører ind og roterer overarmen indad.", "upper"],
+      ["Musculus rectus abdominis", "Den lige mavemuskel", "Bryst og mave", "Crista pubica og symphysis pubica.", "Processus xiphoideus og ribbensbrusk på ribben 5–7.", "Bøjer overkroppen frem og spænder bugvæggen.", "trunk"],
+      ["Musculus obliquus externus abdominis", "Ydre skrå mavemuskel", "Bryst og mave", "Ydersiden af ribben 5–12.", "Linea alba, hoftekam og pubis via aponeurose.", "Bøjer kroppen til siden; roterer overkroppen modsat muskelsiden og komprimerer bugen.", "trunk"],
+      ["Musculus obliquus internus abdominis", "Indre skrå mavemuskel", "Bryst og mave", "Thoracolumbal fascie, hoftekam og ligamentum inguinale.", "Nederste ribben, linea alba og pubis.", "Bøjer kroppen til siden; roterer overkroppen mod samme side og komprimerer bugen.", "trunk"],
+      ["Musculus transversus abdominis", "Tværgående mavemuskel", "Bryst og mave", "Ribbensbruske 7–12, thoracolumbal fascie, hoftekam og ligamentum inguinale.", "Linea alba og pubis.", "Komprimerer bughulen og hjælper med at stabilisere kropsstammen.", "trunk"],
+      ["Musculus quadratus lumborum", "Firkantet lændemuskel", "Bryst og mave", "Hoftekam og ligamentum iliolumbale.", "Ribben 12 og tværtappe L1–L4.", "Sidebøjer lænden og stabiliserer ribben 12 ved vejrtrækning.", "trunk"],
+      ["Diaphragma", "Mellemgulvet", "Bryst og mave", "Processus xiphoideus, nederste ribben og lændehvirvler via crura.", "Centrum tendineum.", "Primær indåndingsmuskel; øger brysthulens volumen, når den trækker sig sammen.", "trunk"],
+      ["Musculi intercostales externi", "Ydre interkostalmuskler", "Bryst og mave", "Nederste kant af ribbenet ovenfor.", "Øverste kant af ribbenet nedenfor.", "Løfter ribbenene under indånding.", "trunk"],
+      ["Musculi intercostales interni", "Indre interkostalmuskler", "Bryst og mave", "Ribbensfuren på ribbenet ovenfor.", "Ribbenet nedenfor.", "Sænker især ribbenene ved forceret udånding.", "trunk"],
+
+      ["Musculus deltoideus", "Deltamusklen", "Skulder og arm", "Laterale clavicula, acromion og spina scapulae.", "Tuberositas deltoidea på humerus.", "Løfter armen ud til siden; forreste fibre bøjer armen frem, bageste fører den bagud.", "upper"],
+      ["Musculus supraspinatus", "Øvre skulderbladsmuskel", "Skulder og arm", "Fossa supraspinata på scapula.", "Øverste facet af tuberculum majus på humerus.", "Indleder armens udadføring og stabiliserer skulderleddet.", "upper"],
+      ["Musculus infraspinatus", "Nedre skulderbladsmuskel", "Skulder og arm", "Fossa infraspinata på scapula.", "Midterste facet af tuberculum majus på humerus.", "Roterer overarmen udad og stabiliserer skulderleddet.", "upper"],
+      ["Musculus teres minor", "Lille runde skuldermuskel", "Skulder og arm", "Laterale kant af scapula.", "Nederste facet af tuberculum majus på humerus.", "Roterer overarmen udad og hjælper med at føre den ind.", "upper"],
+      ["Musculus subscapularis", "Underbladsmuskel", "Skulder og arm", "Fossa subscapularis på forsiden af scapula.", "Tuberculum minus på humerus.", "Roterer overarmen indad og stabiliserer skulderleddet.", "upper"],
+      ["Musculus teres major", "Store runde skuldermuskel", "Skulder og arm", "Nederste vinkel og bagflade af scapula.", "Mediale læbe af sulcus intertubercularis på humerus.", "Strækker, fører ind og roterer overarmen indad.", "upper"],
+      ["Musculus coracobrachialis", "Næb-arm-muskel", "Skulder og arm", "Processus coracoideus på scapula.", "Mediale midterdel af humerus.", "Bøjer og fører overarmen ind mod kroppen.", "upper"],
+      ["Musculus biceps brachii", "Den tohovede armbøjer", "Skulder og arm", "Caput longum fra tuberculum supraglenoidale; caput breve fra processus coracoideus.", "Tuberositas radii og bicipital aponeurose.", "Bøjer albuen og supinerer underarmen; hjælper med at bøje skulderen.", "upper"],
+      ["Musculus brachialis", "Armbøjeren", "Skulder og arm", "Forfladen af nederste halvdel af humerus.", "Tuberositas ulnae og processus coronoideus.", "En stærk albuebøjer uanset underarmens rotation.", "upper"],
+      ["Musculus triceps brachii", "Den trehovede armstrækker", "Skulder og arm", "Caput longum fra scapula; øvrige hoveder fra bagsiden af humerus.", "Olecranon på ulna.", "Strækker albuen; det lange hoved hjælper også med at strække overarmen.", "upper"],
+      ["Musculus anconeus", "Albuehjælperen", "Skulder og arm", "Epicondylus lateralis på humerus.", "Olecranon og øvre bagside af ulna.", "Hjælper triceps med albuestræk og stabiliserer albueleddet.", "upper"],
+
+      ["Musculus brachioradialis", "Overarms-spolebensmuskel", "Underarm og hånd", "Crista supracondylaris lateralis på humerus.", "Processus styloideus radii.", "Bøjer albuen bedst med tommelfingeren opad.", "upper"],
+      ["Musculus pronator teres", "Rund indadrotator", "Underarm og hånd", "Epicondylus medialis humeri og processus coronoideus ulnae.", "Midterste laterale del af radius.", "Pronerer underarmen og hjælper lidt med albuebøjning.", "upper"],
+      ["Musculus pronator quadratus", "Firkantet indadrotator", "Underarm og hånd", "Nederste forflade af ulna.", "Nederste forflade af radius.", "Pronerer underarmen og stabiliserer radius mod ulna.", "upper"],
+      ["Musculus supinator", "Udadrotator af underarmen", "Underarm og hånd", "Epicondylus lateralis humeri og proximale ulna.", "Øvre tredjedel af radius.", "Supinerer underarmen, så håndfladen vender frem eller op.", "upper"],
+      ["Musculus flexor carpi radialis", "Spolebenssidig håndledsbøjer", "Underarm og hånd", "Epicondylus medialis humeri.", "Basis af metacarpalknogler II og III.", "Bøjer og fører håndleddet mod tommelfingersiden.", "upper"],
+      ["Musculus palmaris longus", "Lange håndflademuskel", "Underarm og hånd", "Epicondylus medialis humeri.", "Retinaculum flexorum og aponeurosis palmaris.", "Spænder håndfladens seneplade og hjælper med håndledsbøjning; kan mangle naturligt.", "upper"],
+      ["Musculus flexor carpi ulnaris", "Albuebenssidig håndledsbøjer", "Underarm og hånd", "Epicondylus medialis humeri, olecranon og ulna.", "Os pisiforme, hamulus ossis hamati og basis af metacarpal V.", "Bøjer og fører håndleddet mod lillefingersiden.", "upper"],
+      ["Musculus flexor digitorum superficialis", "Overfladisk fingerbøjer", "Underarm og hånd", "Epicondylus medialis, processus coronoideus og radius.", "Mellemste phalanx på fingrene II–V.", "Bøjer især fingrenes mellemled; hjælper med håndledsbøjning.", "upper"],
+      ["Musculus flexor digitorum profundus", "Dyb fingerbøjer", "Underarm og hånd", "Forreste og mediale ulna samt membrana interossea.", "Endefalangerne på fingrene II–V.", "Bøjer fingerspidsernes led og hjælper med fingerbøjning.", "upper"],
+      ["Musculus flexor pollicis longus", "Lange tommelbøjer", "Underarm og hånd", "Forfladen af radius og membrana interossea.", "Endefalangen på tommelfingeren.", "Bøjer tommelfingerens yderste led.", "upper"],
+      ["Musculus extensor carpi radialis longus", "Lange spolebenssidige håndledsstrækker", "Underarm og hånd", "Crista supracondylaris lateralis humeri.", "Basis af metacarpal II.", "Strækker og fører håndleddet mod tommelfingersiden.", "upper"],
+      ["Musculus extensor carpi radialis brevis", "Korte spolebenssidige håndledsstrækker", "Underarm og hånd", "Epicondylus lateralis humeri.", "Basis af metacarpal III.", "Strækker og fører håndleddet mod tommelfingersiden.", "upper"],
+      ["Musculus extensor digitorum", "Fingerstrækker", "Underarm og hånd", "Epicondylus lateralis humeri.", "Extensorapparatet på fingrene II–V.", "Strækker fingrene og hjælper med at strække håndleddet.", "upper"],
+      ["Musculus extensor carpi ulnaris", "Albuebenssidig håndledsstrækker", "Underarm og hånd", "Epicondylus lateralis humeri og bagsiden af ulna.", "Basis af metacarpal V.", "Strækker og fører håndleddet mod lillefingersiden.", "upper"],
+      ["Musculus abductor pollicis longus", "Lange tommelspreder", "Underarm og hånd", "Bagsiden af radius, ulna og membrana interossea.", "Basis af metacarpal I.", "Fører tommelfingeren ud fra håndfladen og hjælper med håndledsføring.", "upper"],
+      ["Musculus extensor pollicis longus", "Lange tommelstrækker", "Underarm og hånd", "Bagsiden af ulna og membrana interossea.", "Endefalangen på tommelfingeren.", "Strækker tommelfingerens yderste led.", "upper"],
+      ["Musculus extensor pollicis brevis", "Korte tommelstrækker", "Underarm og hånd", "Bagsiden af radius og membrana interossea.", "Grundfalangen på tommelfingeren.", "Strækker tommelfingerens grundled.", "upper"],
+      ["Musculus extensor indicis", "Pegefingerstrækker", "Underarm og hånd", "Bagsiden af distale ulna og membrana interossea.", "Extensorapparatet på pegefingeren.", "Strækker pegefingeren uafhængigt af de øvrige fingre.", "upper"],
+      ["Musculi lumbricales manus", "Håndens ormemuskler", "Underarm og hånd", "Senerne fra flexor digitorum profundus.", "Extensorapparatet på fingrene II–V.", "Bøjer grundleddene og strækker de to yderste fingerled.", "upper"],
+      ["Musculi interossei dorsales manus", "Håndens dorsale mellemhåndsmuskler", "Underarm og hånd", "Modstående sider af mellemhåndsknoglerne.", "Grundfalanger og extensorapparat på fingrene II–IV.", "Spreder fingrene fra håndens midterlinje og hjælper med fingerbøjning/-stræk.", "upper"],
+      ["Musculi interossei palmares manus", "Håndens palmare mellemhåndsmuskler", "Underarm og hånd", "Mellemhåndsknogler II, IV og V.", "Grundfalanger og extensorapparat på fingrene II, IV og V.", "Fører fingrene ind mod håndens midterlinje.", "upper"],
+
+      ["Musculus iliopsoas", "Hoftebøjeren (psoas major + iliacus)", "Hofte og lår", "Psoas major fra T12–L5; iliacus fra fossa iliaca.", "Trochanter minor på femur.", "Bøjer hoften kraftigt og hjælper med at stabilisere lænd og bækken.", "lower"],
+      ["Musculus gluteus maximus", "Store baldemuskel", "Hofte og lår", "Bagsiden af ilium, sacrum og coccyx.", "Tractus iliotibialis og tuberositas glutea.", "Strækker hoften og roterer låret udad; vigtig ved at rejse sig og gå på trapper.", "lower"],
+      ["Musculus gluteus medius", "Mellemste baldemuskel", "Hofte og lår", "Ydersiden af ilium mellem gluteallinjerne.", "Laterale flade af trochanter major.", "Fører låret udad og holder bækkenet vandret under gang.", "lower"],
+      ["Musculus gluteus minimus", "Lille baldemuskel", "Hofte og lår", "Ydersiden af ilium.", "Forsiden af trochanter major.", "Fører låret udad og roterer det indad; stabiliserer bækkenet.", "lower"],
+      ["Musculus tensor fasciae latae", "Den brede lårfascias spænder", "Hofte og lår", "Spina iliaca anterior superior og forreste hoftekam.", "Tractus iliotibialis til laterale tibia.", "Bøjer og fører hoften udad; spænder tractus iliotibialis og støtter knæet.", "lower"],
+      ["Musculus piriformis", "Pæreformet baldemuskel", "Hofte og lår", "Forsiden af sacrum.", "Øvre kant af trochanter major.", "Roterer hoften udad og stabiliserer hofteleddet.", "lower"],
+      ["Musculus obturatorius internus", "Indre lukkemuskel", "Hofte og lår", "Indersiden af membrana obturatoria og kanten af foramen obturatum.", "Mediale flade af trochanter major.", "Roterer hoften udad og stabiliserer hofteleddet.", "lower"],
+      ["Musculus adductor longus", "Lange lårlukker", "Hofte og lår", "Corpus pubis nær symphysis pubica.", "Midterste linea aspera på femur.", "Fører låret ind mod kroppens midtlinje og hjælper med hoftebøjning.", "lower"],
+      ["Musculus adductor brevis", "Korte lårlukker", "Hofte og lår", "Corpus og ramus inferior ossis pubis.", "Pectineallinjen og øvre linea aspera.", "Fører låret indad og hjælper med hoftebøjning.", "lower"],
+      ["Musculus adductor magnus", "Store lårlukker", "Hofte og lår", "Ramus inferior pubis, ramus ossis ischii og tuber ischiadicum.", "Linea aspera og tuberculum adductorium.", "Fører låret indad; forreste del bøjer og bageste del strækker hoften.", "lower"],
+      ["Musculus gracilis", "Den slanke lårlukker", "Hofte og lår", "Corpus og ramus inferior ossis pubis.", "Mediale proximale tibia via pes anserinus.", "Fører låret indad; bøjer knæet og roterer underbenet indad.", "lower"],
+      ["Musculus pectineus", "Kammuskel", "Hofte og lår", "Pecten ossis pubis.", "Pectineallinjen på femur.", "Fører låret indad og hjælper med at bøje hoften.", "lower"],
+      ["Musculus sartorius", "Skræddermusklen", "Hofte og lår", "Spina iliaca anterior superior.", "Mediale proximale tibia via pes anserinus.", "Bøjer, fører udad og roterer hoften udad; bøjer også knæet.", "lower"],
+      ["Musculus rectus femoris", "Lige lårmuskel", "Hofte og lår", "Spina iliaca anterior inferior og øvre acetabulumkant.", "Patella og tuberositas tibiae via quadricepssenen.", "Strækker knæet og hjælper med at bøje hoften.", "lower"],
+      ["Musculus vastus lateralis", "Ydre brede lårmuskel", "Hofte og lår", "Trochanter major og linea aspera på femur.", "Patella og tuberositas tibiae via quadricepssenen.", "Strækker knæet.", "lower"],
+      ["Musculus vastus medialis", "Indre brede lårmuskel", "Hofte og lår", "Linea aspera og linea intertrochanterica.", "Patella og tuberositas tibiae via quadricepssenen.", "Strækker knæet og hjælper med at styre patella.", "lower"],
+      ["Musculus vastus intermedius", "Mellemste brede lårmuskel", "Hofte og lår", "For- og ydersiden af femurskaftet.", "Patella og tuberositas tibiae via quadricepssenen.", "Strækker knæet.", "lower"],
+      ["Musculus biceps femoris", "Tohovedet baglårsmuskel", "Hofte og lår", "Caput longum fra tuber ischiadicum; caput breve fra linea aspera.", "Caput fibulae.", "Bøjer knæet; roterer bøjet knæ udad. Lange hoved strækker hoften.", "lower"],
+      ["Musculus semitendinosus", "Halvseneformet baglårsmuskel", "Hofte og lår", "Tuber ischiadicum.", "Mediale proximale tibia via pes anserinus.", "Strækker hoften, bøjer knæet og roterer bøjet knæ indad.", "lower"],
+      ["Musculus semimembranosus", "Halvhindet baglårsmuskel", "Hofte og lår", "Tuber ischiadicum.", "Mediale kondyl på tibia.", "Strækker hoften, bøjer knæet og roterer bøjet knæ indad.", "lower"],
+
+      ["Musculus tibialis anterior", "Forreste skinnebensmuskel", "Underben og fod", "Condylus lateralis og øvre laterale tibia samt membrana interossea.", "Os cuneiforme mediale og basis af metatarsal I.", "Løfter forfoden og drejer fodsålen indad.", "lower"],
+      ["Musculus extensor hallucis longus", "Lange storetåstrækker", "Underben og fod", "Forreste midterdel af fibula og membrana interossea.", "Endefalangen på storetåen.", "Strækker storetåen og løfter forfoden.", "lower"],
+      ["Musculus extensor digitorum longus", "Lange tåstrækker", "Underben og fod", "Laterale tibia, øvre fibula og membrana interossea.", "Extensorapparatet på tæerne II–V.", "Strækker tæerne og løfter forfoden.", "lower"],
+      ["Musculus fibularis longus", "Lange lægbensmuskel", "Underben og fod", "Caput fibulae og øvre laterale fibula.", "Under foden til basis af metatarsal I og os cuneiforme mediale.", "Drejer fodsålen udad, sænker forfoden og støtter fodens tværbue.", "lower"],
+      ["Musculus fibularis brevis", "Korte lægbensmuskel", "Underben og fod", "Nedre laterale fibula.", "Tuberositas af metatarsal V.", "Drejer fodsålen udad og hjælper med at sænke forfoden.", "lower"],
+      ["Musculus gastrocnemius", "Tvillingelægsmusklen", "Underben og fod", "Mediale og laterale femurkondyl.", "Calcaneus via tendo calcaneus (akillessenen).", "Sænker forfoden kraftigt og hjælper med at bøje knæet.", "lower"],
+      ["Musculus soleus", "Skræddermuskel i læggen", "Underben og fod", "Bagfladen af tibia og fibula samt senebuen mellem dem.", "Calcaneus via tendo calcaneus.", "Sænker forfoden og hjælper med at holde kroppen oprejst.", "lower"],
+      ["Musculus plantaris", "Plantarmuskel", "Underben og fod", "Laterale suprakondylære linje på femur.", "Calcaneus, ofte via en lang sene.", "Svag hjælp til at sænke forfoden og bøje knæet; kan mangle naturligt.", "lower"],
+      ["Musculus popliteus", "Knæhasemuskel", "Underben og fod", "Laterale femurkondyl og laterale menisk.", "Bagfladen af øvre tibia.", "Hjælper med at låse knæet op og bøjer det let.", "lower"],
+      ["Musculus tibialis posterior", "Bageste skinnebensmuskel", "Underben og fod", "Bagflader af tibia og fibula samt membrana interossea.", "Primært os naviculare; også kileben og mellemfodsknogler.", "Drejer fodsålen indad, sænker forfoden og støtter længdebuen.", "lower"],
+      ["Musculus flexor digitorum longus", "Lange tåbøjer", "Underben og fod", "Bagfladen af tibia.", "Endefalangerne på tæerne II–V.", "Bøjer tæerne og hjælper med at sænke forfoden.", "lower"],
+      ["Musculus flexor hallucis longus", "Lange storetåbøjer", "Underben og fod", "Bagfladen af fibula og membrana interossea.", "Endefalangen på storetåen.", "Bøjer storetåen og hjælper med afsæt og sænkning af forfoden.", "lower"],
+      ["Musculus abductor hallucis", "Storetåens spreder", "Underben og fod", "Mediale calcaneus og plantar aponeurose.", "Mediale side af storetåens grundfalanks.", "Spreder og bøjer storetåen; støtter fodens længdebue.", "lower"],
+      ["Musculus flexor digitorum brevis", "Korte tåbøjer", "Underben og fod", "Processus medialis tuberis calcanei og plantar aponeurose.", "Mellemfalanger på tæerne II–V.", "Bøjer tæernes mellemled og støtter fodsålen.", "lower"],
+      ["Musculus abductor digiti minimi pedis", "Lilletåens spreder", "Underben og fod", "Calcaneus og plantar aponeurose.", "Laterale side af lilletåens grundfalanks.", "Spreder og bøjer lilletåen.", "lower"],
+      ["Musculus quadratus plantae", "Fodsålens firkantede muskel", "Underben og fod", "Mediale og laterale flade af calcaneus.", "Senen fra flexor digitorum longus.", "Hjælper de lange tåbøjere med at bøje tæerne i lige retning.", "lower"],
+      ["Musculi lumbricales pedis", "Fodsålens ormemuskler", "Underben og fod", "Senerne fra flexor digitorum longus.", "Extensorapparat og grundfalanger på tæerne II–V.", "Bøjer grundled og strækker de øvrige tåled.", "lower"],
+      ["Musculi interossei dorsales pedis", "Fodens dorsale mellemfodsmuskler", "Underben og fod", "Modstående sider af mellemfodsknoglerne.", "Grundfalanger på tæerne II–IV.", "Spreder tæerne og hjælper med at bøje grundleddene.", "lower"],
+      ["Musculi interossei plantares pedis", "Fodens plantare mellemfodsmuskler", "Underben og fod", "Mediale sider af mellemfodsknoglerne III–V.", "Grundfalanger og extensorapparat på tæerne III–V.", "Fører tæerne ind mod anden tå og hjælper med at stabilisere dem.", "lower"]
+    ];
+
+    const regions = ["Alle regioner", ...new Set(data.map(item => item[2]))];
+    const filterBox = document.getElementById("filters");
+    const grid = document.getElementById("muscles");
+    const search = document.getElementById("search");
+    const count = document.getElementById("count");
+    let activeRegion = "Alle regioner";
+
+    function renderFilters() {
+      filterBox.innerHTML = regions.map((region, i) => '<button class="filter" type="button" aria-pressed="' + (i === 0 ? "true" : "false") + '">' + region + '</button>').join("");
+      filterBox.querySelectorAll(".filter").forEach(button => button.addEventListener("click", () => {
+        activeRegion = button.textContent;
+        filterBox.querySelectorAll(".filter").forEach(item => item.setAttribute("aria-pressed", String(item === button)));
+        renderMuscles();
+      }));
+    }
+
+    function renderMuscles() {
+      const q = search.value.trim().toLocaleLowerCase("da");
+      const found = data.filter(item => {
+        const regionOK = activeRegion === "Alle regioner" || item[2] === activeRegion;
+        const searchOK = !q || item.slice(0, 6).join(" ").toLocaleLowerCase("da").includes(q);
+        return regionOK && searchOK;
+      });
+      count.textContent = found.length + (found.length === 1 ? " muskel" : " muskler");
+      if (!found.length) {
+        grid.innerHTML = '<div class="empty">Ingen muskler matchede søgningen. Prøv et andet dansk eller latinsk ord.</div>';
+        return;
+      }
+      grid.innerHTML = found.map(item => {
+        const ref = refs[item[6]];
+        return '<details class="muscle-card"><summary class="muscle-summary"><span class="muscle-title"><i class="latin">' + item[0] + '</i><span class="danish-name">' + item[1] + '</span></span><span class="region-tag">' + item[2] + '</span></summary><div class="muscle-detail"><dl class="fields"><div class="field"><dt>Udspring</dt><dd>' + item[3] + '</dd></div><div class="field"><dt>Hæfte</dt><dd>' + item[4] + '</dd></div><div class="field function"><dt>Funktion</dt><dd>' + item[5] + '</dd></div></dl><a class="source-link" href="' + ref.url + '" target="_blank" rel="noopener noreferrer">Læs mere: ' + ref.name + ' ↗</a></div></details>';
+      }).join("");
+    }
+
+    renderFilters();
+    renderMuscles();
+    search.addEventListener("input", renderMuscles);
+  </script>
+</body>
+</html>
