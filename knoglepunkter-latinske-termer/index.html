@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="da">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4f4f2">
+  <meta name="description" content="Dansk ordliste over latinske anatomiske termer til knogler, med søgning og forklaringer.">
+  <title>Knoglepunkter – latinske termer</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #292a28;
+      --muted: #71736f;
+      --paper: #f4f4f2;
+      --white: #fff;
+      --line: #e3e3df;
+      --accent: #6b756f;
+      --accent-dark: #414b45;
+      --soft: #eceeea;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background: var(--paper);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { min-width: 320px; margin: 0; }
+    button, input { font: inherit; }
+    button { cursor: pointer; }
+    a { color: inherit; }
+    .topbar {
+      display: flex; align-items: center; justify-content: space-between;
+      max-width: 1120px; margin: auto; padding: 18px 26px;
+    }
+    .brand { display: flex; align-items: center; gap: 10px; color: var(--accent-dark); font-size: 14px; font-weight: 800; text-decoration: none; }
+    .brand-icon { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid var(--line); border-radius: 11px; background: var(--white); font-size: 18px; }
+    .home-link { color: var(--muted); font-size: 12px; text-decoration: none; }
+    .home-link:hover { color: var(--ink); text-decoration: underline; }
+    .hero {
+      max-width: 1068px; margin: 10px auto 0; padding: clamp(34px, 6vw, 64px);
+      border: 1px solid var(--line); border-radius: 24px; background: linear-gradient(130deg, #fff 0%, #eeefec 100%);
+    }
+    .hero-inner { max-width: 760px; }
+    .eyebrow { margin: 0 0 13px; color: var(--accent); font-size: 10px; font-weight: 800; letter-spacing: .15em; text-transform: uppercase; }
+    h1, h2, h3 { margin-top: 0; }
+    h1 { margin-bottom: 14px; color: #333a35; font-family: Georgia, "Times New Roman", serif; font-size: clamp(39px, 7vw, 68px); font-weight: 500; letter-spacing: -.055em; line-height: 1; }
+    .hero p:not(.eyebrow) { max-width: 670px; margin-bottom: 0; color: #626660; font-size: 15px; line-height: 1.7; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+    .button {
+      display: inline-flex; min-height: 42px; align-items: center; justify-content: center;
+      padding: 0 16px; border: 1px solid var(--accent-dark); border-radius: 999px;
+      background: var(--accent-dark); color: #fff; font-size: 12px; font-weight: 750; text-decoration: none;
+    }
+    .button:hover { background: #2e3731; }
+    .button.secondary { border-color: #d4d6d1; background: transparent; color: var(--accent-dark); }
+    .button.secondary:hover { background: #fff; }
+    .main { max-width: 1068px; margin: auto; padding: 58px 26px 70px; }
+    .section-head { display: flex; align-items: end; justify-content: space-between; gap: 18px; margin-bottom: 18px; }
+    h2 { margin-bottom: 7px; color: #343b36; font-family: Georgia, "Times New Roman", serif; font-size: clamp(28px, 4vw, 38px); font-weight: 500; letter-spacing: -.04em; }
+    .section-desc { max-width: 680px; margin-bottom: 0; color: var(--muted); font-size: 13px; line-height: 1.65; }
+    .term-count { flex-shrink: 0; color: var(--muted); font-size: 11px; }
+    .search-row { display: flex; gap: 12px; margin: 22px 0 13px; }
+    .search-wrap { position: relative; flex: 1; }
+    .search-icon { position: absolute; top: 50%; left: 14px; color: #81847e; pointer-events: none; transform: translateY(-50%); }
+    .search {
+      width: 100%; min-height: 47px; padding: 0 15px 0 42px; border: 1px solid var(--line);
+      border-radius: 12px; outline: none; background: var(--white); color: var(--ink);
+    }
+    .search:focus { border-color: #9ba49e; box-shadow: 0 0 0 3px rgb(113 126 117 / 14%); }
+    .filters { display: flex; flex-wrap: wrap; gap: 7px; margin: 0 0 18px; }
+    .filter {
+      min-height: 33px; padding: 0 12px; border: 1px solid var(--line); border-radius: 999px;
+      background: transparent; color: #666a65; font-size: 11px; font-weight: 700;
+    }
+    .filter:hover { border-color: #adb2ac; }
+    .filter[aria-pressed="true"] { border-color: var(--accent-dark); background: var(--accent-dark); color: #fff; }
+    .table-wrap { overflow: hidden; border: 1px solid var(--line); border-radius: 15px; background: var(--white); }
+    table { width: 100%; border-collapse: collapse; text-align: left; }
+    th { padding: 13px 17px; background: #eceeeb; color: #5e655f; font-size: 10px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+    td { padding: 13px 17px; border-top: 1px solid #ededea; color: #4c514c; font-size: 13px; line-height: 1.45; vertical-align: top; }
+    td:first-child { width: 38%; color: #343b36; font-family: Georgia, "Times New Roman", serif; font-size: 15px; font-style: italic; font-weight: 700; }
+    .category-label { display: inline-block; padding: 4px 8px; border-radius: 999px; background: #f1f2ef; color: #72766f; font-family: inherit; font-size: 9px; font-style: normal; font-weight: 750; white-space: nowrap; }
+    .no-results td { padding: 28px; color: var(--muted); text-align: center; }
+    .latin-tip {
+      display: grid; grid-template-columns: 1.05fr .95fr; gap: 25px; margin-top: 56px;
+      padding: clamp(22px, 4vw, 36px); border: 1px solid var(--line); border-radius: 19px; background: #fff;
+    }
+    .latin-tip h2 { font-size: clamp(25px, 3vw, 32px); }
+    .latin-tip p { margin-bottom: 11px; color: #616660; font-size: 13px; line-height: 1.65; }
+    .formula { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin: 18px 0; }
+    .formula span { padding: 8px 11px; border: 1px solid var(--line); border-radius: 9px; background: #f8f8f6; color: #464c47; font-size: 11px; font-weight: 750; }
+    .formula b { color: #9a9e97; font-size: 12px; }
+    .example-list { display: grid; gap: 9px; }
+    .example {
+      padding: 12px 14px; border: 1px solid #e8e9e6; border-radius: 11px; background: #fafaf9;
+    }
+    .example strong { display: block; margin-bottom: 4px; color: #333a35; font-family: Georgia, "Times New Roman", serif; font-size: 15px; font-style: italic; }
+    .example span { color: #6d716b; font-size: 11px; line-height: 1.5; }
+    .mini-breakdown { display: flex; flex-wrap: wrap; gap: 7px; margin: 12px 0 8px; }
+    .mini-breakdown span { padding: 5px 8px; border-radius: 7px; background: var(--soft); color: #525a54; font-size: 10px; }
+    .advice {
+      margin-top: 24px; padding: 17px 19px; border-left: 3px solid #9ba49e;
+      border-radius: 0 10px 10px 0; background: #eeefec; color: #555b56; font-size: 12px; line-height: 1.65;
+    }
+    .sources { margin-top: 50px; padding-top: 22px; border-top: 1px solid var(--line); }
+    .sources h2 { font-size: 24px; }
+    .source-links { display: flex; flex-wrap: wrap; gap: 9px 18px; margin-top: 12px; }
+    .source-links a { color: #57635b; font-size: 11px; text-underline-offset: 3px; }
+    footer { display: flex; justify-content: space-between; gap: 15px; max-width: 1068px; margin: auto; padding: 19px 26px 30px; border-top: 1px solid var(--line); color: var(--muted); font-size: 10px; }
+    footer a { text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+    @media (max-width: 680px) {
+      .topbar { padding: 14px 18px; }
+      .hero { margin: 8px 14px 0; padding: 36px 22px; }
+      .hero p:not(.eyebrow) { font-size: 13px; }
+      .main { padding: 45px 16px 55px; }
+      .section-head { align-items: flex-start; flex-direction: column; }
+      .term-count { margin-top: -9px; }
+      .latin-tip { grid-template-columns: 1fr; gap: 18px; }
+      .table-wrap { overflow-x: auto; }
+      table { min-width: 590px; }
+      footer { flex-direction: column; padding-right: 18px; padding-left: 18px; }
+    }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#top"><span class="brand-icon" aria-hidden="true">🦴</span> Knoglepunkter · latin</a>
+    <a class="home-link" href="../">← Til forsiden</a>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="hero-inner">
+        <p class="eyebrow">Anatomisk latin · knogler</p>
+        <h1>Knoglepunkter – latinske termer</h1>
+        <p>En overskuelig ordliste til knoglernes navne. Lær de latinske grundord, søg efter et begreb, og brug mønstrene til at afkode lange anatomiske navne.</p>
+        <div class="hero-actions">
+          <a class="button" href="#ordliste">Gå til ordlisten ↓</a>
+          <a class="button secondary" href="#latintrick">Se latintricket</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="main" id="ordliste" aria-labelledby="ordliste-title">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Bonustabel · 40+ grundord</p>
+          <h2 id="ordliste-title">Anatomisk latin</h2>
+          <p class="section-desc">Søg på latin eller dansk, eller filtrér efter type. Betydningen kan afhænge af den konkrete knogle og sammenhængen.</p>
+        </div>
+        <span class="term-count" id="count" aria-live="polite"></span>
+      </div>
+
+      <div class="search-row">
+        <label class="search-wrap">
+          <span class="search-icon" aria-hidden="true">⌕</span>
+          <input class="search" id="search" type="search" placeholder="Søg fx tuberositas, fordybning eller retning…" aria-label="Søg i ordlisten" autocomplete="off">
+        </label>
+      </div>
+      <nav class="filters" id="filters" aria-label="Filtrér ordlisten"></nav>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th scope="col">Latinsk ord</th><th scope="col">Dansk betydning</th><th scope="col">Type</th></tr></thead>
+          <tbody id="terms"></tbody>
+        </table>
+      </div>
+
+      <section class="latin-tip" id="latintrick" aria-labelledby="tip-title">
+        <div>
+          <p class="eyebrow">Et sidste lille latintrick</p>
+          <h2 id="tip-title">Læs navnet i dele</h2>
+          <p>Mange knoglepunkter følger mønstret <strong>struktur + beskrivelse + tilhørsforhold</strong>. Det første ord fortæller, hvilken slags form du leder efter. Det sidste ord fortæller ofte, hvilken knogle den hører til.</p>
+          <div class="formula" aria-label="Struktur plus beskrivelse plus tilhørsforhold">
+            <span>Struktur</span><b>+</b><span>beskrivelse</span><b>+</b><span>tilhørsforhold</span>
+          </div>
+          <div class="example">
+            <strong>Tuberositas radii</strong>
+            <span><em>Tuberositas</em> = ru knoglefremspring · <em>radii</em> = spolebenets / radius'</span>
+            <div class="mini-breakdown"><span>hvilken struktur?</span><span>hvilken knogle?</span></div>
+          </div>
+          <div class="advice"><strong>Genitiv betyder ofte “af” eller “-ets”.</strong> Derfor kan du tit forstå slutningen af et navn ved at oversætte den som “knoglens …”. Latinordene bøjes efter grammatisk køn og sammenhæng, så endelserne kan ændre sig.</div>
+        </div>
+        <div>
+          <p class="eyebrow">Eksempler</p>
+          <div class="example-list">
+            <div class="example"><strong>Caput femoris</strong><span>Lårbenets hoved.</span></div>
+            <div class="example"><strong>Collum radii</strong><span>Spolebenets hals.</span></div>
+            <div class="example"><strong>Corpus humeri</strong><span>Overarmsbenets krop eller skaft.</span></div>
+            <div class="example"><strong>Ramus ossis ischii</strong><span>Sædebenets gren.</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="sources" aria-labelledby="sources-title">
+        <p class="eyebrow">Videre læsning</p>
+        <h2 id="sources-title">Anatomisk terminologi</h2>
+        <p class="section-desc">De latinske termer følger den internationale anatomiske navngivning, mens de danske forklaringer her er korte studieoversættelser.</p>
+        <div class="source-links">
+          <a href="https://ifaa.unifr.ch/Public/" target="_blank" rel="noopener noreferrer">FIPAT · Terminologia Anatomica</a>
+          <a href="https://open.oregonstate.education/anatomy2e/chapter/bone-structure/" target="_blank" rel="noopener noreferrer">OpenStax/Oregon State · knoglemarkeringer</a>
+        </div>
+      </section>
+    </section>
+  </main>
+  <footer><span>Knoglepunkter · Latinske grundord og anatomiske navnemønstre</span><a href="#top">Til toppen ↑</a></footer>
+
+  <script>
+    const data = [
+      ["Os / Ossa", "Knogle / knogler", "Knogledele"],
+      ["Caput", "Hoved", "Knogledele"],
+      ["Collum", "Hals", "Knogledele"],
+      ["Corpus", "Krop eller skaft", "Knogledele"],
+      ["Processus", "Fremspring eller knogleudløber", "Knogledele"],
+      ["Ramus / Rami", "Gren / grene", "Knogledele"],
+      ["Lamina", "Plade", "Knogledele"],
+      ["Arcus", "Bue", "Knogledele"],
+      ["Tuberculum", "Lille, rund knogleknude", "Fremspring"],
+      ["Tuberositas", "Ru knoglefremspring", "Fremspring"],
+      ["Tuber", "Stor, afrundet knogleknude", "Fremspring"],
+      ["Spina", "Torn eller knoglespids", "Fremspring"],
+      ["Crista", "Kam", "Fremspring"],
+      ["Linea", "Linje eller lav kam", "Fremspring"],
+      ["Condylus", "Afrundet ledknude", "Fremspring"],
+      ["Epicondylus", "Fremspring over en ledknude", "Fremspring"],
+      ["Trochlea", "Trisseformet ledflade", "Fremspring"],
+      ["Malleolus", "Ankelknude", "Fremspring"],
+      ["Facies", "Flade", "Flader og åbninger"],
+      ["Articularis", "Vedrørende et led / led-", "Flader og åbninger"],
+      ["Fossa", "Fordybning eller grube", "Flader og åbninger"],
+      ["Fovea", "Lille fordybning", "Flader og åbninger"],
+      ["Sulcus", "Fure", "Flader og åbninger"],
+      ["Incisura", "Indskæring", "Flader og åbninger"],
+      ["Foramen", "Hul eller åbning gennem en knogle", "Flader og åbninger"],
+      ["Canalis", "Kanal", "Flader og åbninger"],
+      ["Margo", "Kant eller rand", "Flader og åbninger"],
+      ["Angulus", "Vinkel eller hjørne", "Flader og åbninger"],
+      ["Anterior", "Forreste", "Retning"],
+      ["Posterior", "Bageste", "Retning"],
+      ["Superior", "Øvre", "Retning"],
+      ["Inferior", "Nedre", "Retning"],
+      ["Medialis", "Mod kroppens midtlinje", "Retning"],
+      ["Lateralis", "Væk fra kroppens midtlinje", "Retning"],
+      ["Proximalis", "Tættere på kroppens centrum eller en tilhæftning", "Retning"],
+      ["Distalis", "Længere fra kroppens centrum eller en tilhæftning", "Retning"],
+      ["Major / Majus", "Større (formen afhænger af ordets grammatiske køn)", "Størrelse og præfikser"],
+      ["Minor / Minus", "Mindre (formen afhænger af ordets grammatiske køn)", "Størrelse og præfikser"],
+      ["Inter-", "Mellem", "Størrelse og præfikser"],
+      ["Supra-", "Over", "Størrelse og præfikser"],
+      ["Infra-", "Under", "Størrelse og præfikser"],
+      ["Sub-", "Under", "Størrelse og præfikser"],
+      ["Epi-", "På eller over", "Størrelse og præfikser"]
+    ];
+
+    const categories = ["Alle termer", ...new Set(data.map(item => item[2]))];
+    const filters = document.getElementById("filters");
+    const tbody = document.getElementById("terms");
+    const search = document.getElementById("search");
+    const count = document.getElementById("count");
+    let active = "Alle termer";
+
+    function renderFilters() {
+      filters.innerHTML = categories.map((category, i) =>
+        '<button type="button" class="filter" aria-pressed="' + (i === 0 ? "true" : "false") + '">' + category + '</button>'
+      ).join("");
+      filters.querySelectorAll(".filter").forEach(button => button.addEventListener("click", () => {
+        active = button.textContent;
+        filters.querySelectorAll(".filter").forEach(item => item.setAttribute("aria-pressed", String(item === button)));
+        renderRows();
+      }));
+    }
+
+    function renderRows() {
+      const query = search.value.trim().toLocaleLowerCase("da");
+      const visible = data.filter(item => {
+        const categoryMatch = active === "Alle termer" || item[2] === active;
+        const searchMatch = !query || item.join(" ").toLocaleLowerCase("da").includes(query);
+        return categoryMatch && searchMatch;
+      });
+      count.textContent = visible.length + (visible.length === 1 ? " term" : " termer");
+      tbody.innerHTML = visible.length
+        ? visible.map(item => '<tr><td>' + item[0] + '</td><td>' + item[1] + '</td><td><span class="category-label">' + item[2] + '</span></td></tr>').join("")
+        : '<tr class="no-results"><td colspan="3">Ingen termer matcher søgningen. Prøv et andet ord.</td></tr>';
+    }
+
+    renderFilters();
+    renderRows();
+    search.addEventListener("input", renderRows);
+  </script>
+</body>
+</html>
