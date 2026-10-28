@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#f5f5f4">
-  <title>Pages</title>
+  <title>Knoglepunkter</title>
   <style>
     :root {
       color-scheme: light;
@@ -22,53 +22,19 @@
       margin: 0;
       display: grid;
       place-items: center;
-      padding: 2rem 1.25rem;
-    }
-
-    main {
-      width: min(100%, 34rem);
-      padding: 2.5rem;
-      border: 1px solid #e5e5e4;
-      border-radius: 1rem;
-      background: #fff;
-      box-shadow: 0 12px 32px rgb(0 0 0 / 4%);
-    }
-
-    h1 {
-      margin: 0 0 0.5rem;
-      font-size: clamp(1.75rem, 5vw, 2.25rem);
-      letter-spacing: -0.04em;
-    }
-
-    p {
-      margin: 0 0 1.75rem;
-      color: #737373;
-      line-height: 1.6;
-    }
-
-    ul {
-      margin: 0;
-      padding: 0;
-      list-style: none;
+      padding: 1.5rem;
     }
 
     a {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-      padding: 1rem 1.125rem;
+      padding: 1rem 1.5rem;
       border: 1px solid #e5e5e4;
       border-radius: 0.75rem;
+      background: #fff;
       color: inherit;
+      font-size: 1.125rem;
       font-weight: 600;
       text-decoration: none;
       transition: background-color 160ms ease, border-color 160ms ease;
-    }
-
-    a::after {
-      content: "→";
-      color: #737373;
     }
 
     a:hover {
@@ -81,12 +47,6 @@
       outline-offset: 3px;
     }
 
-    @media (max-width: 480px) {
-      main {
-        padding: 1.75rem;
-      }
-    }
-
     @media (prefers-reduced-motion: reduce) {
       a {
         transition: none;
@@ -95,12 +55,6 @@
   </style>
 </head>
 <body>
-  <main>
-    <h1>Pages</h1>
-    <p>A simple collection of pages.</p>
-    <ul>
-      <li><a href="knoglepunkter">Knoglepunkter</a></li>
-    </ul>
-  </main>
+  <a href="knoglepunkter">Knoglepunkter</a>
 </body>
 </html>
