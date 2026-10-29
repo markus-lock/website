@@ -255,7 +255,7 @@
             <div class="phase-box">
               <h3>PEACE <span class="phase-tag">Akut fase</span></h3>
               <ul>
-                <li>Beskyt vævet og afl ast kortvarigt.</li>
+                <li>Beskyt vævet og aflast kortvarigt.</li>
                 <li>Kompression og elevation kan bruges for at begrænse hævelse.</li>
                 <li>Undgå unødig immobilisering.</li>
               </ul>
@@ -411,21 +411,27 @@
       nextButton.textContent = index === questions.length - 1 ? "Se resultat" : "Næste spørgsmål";
     }
 
+    let finished = false;
     nextButton.addEventListener("click", () => {
+      if (finished) {
+        index = 0;
+        correctCount = 0;
+        finished = false;
+        renderQuestion();
+        return;
+      }
       if (index < questions.length - 1) {
         index++;
         renderQuestion();
-      } else {
-        document.getElementById("progress").style.width = "100%";
-        questionEl.textContent = "Quiz færdig: " + correctCount + " af " + questions.length + " rigtige.";
-        answersEl.innerHTML = "";
-        feedbackEl.textContent = correctCount === questions.length ? "Flot. Du har styr på stoffet." : "Du kan tage quizzen igen og gennemgå de afsnit, du vil øve.";
-        nextButton.textContent = "Start forfra";
-        nextButton.disabled = false;
-        nextButton.onclick = () => {
-          index = 0; correctCount = 0; nextButton.onclick = null; renderQuestion();
-        };
+        return;
       }
+      finished = true;
+      document.getElementById("progress").style.width = "100%";
+      questionEl.textContent = "Quiz færdig: " + correctCount + " af " + questions.length + " rigtige.";
+      answersEl.innerHTML = "";
+      feedbackEl.textContent = correctCount === questions.length ? "Flot. Du har styr på stoffet." : "Du kan tage quizzen igen og gennemgå de afsnit, du vil øve.";
+      nextButton.textContent = "Start forfra";
+      nextButton.disabled = false;
     });
     renderQuestion();
   </script>
